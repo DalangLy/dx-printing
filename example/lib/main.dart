@@ -1,3 +1,4 @@
+import 'package:dx_printing_example/home_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -49,14 +50,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
+      home: HomePage(),
+      // home: Scaffold(
+      //   appBar: AppBar(
+      //     title: const Text('Plugin example app'),
+      //   ),
+      //   body: Center(
+      //     child: Text('Running on: $_platformVersion\n'),
+      //   ),
+      // ),
     );
   }
 }
