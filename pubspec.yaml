@@ -1,6 +1,6 @@
 name: dx_printing
 description: printing sdk for android only
-version: 0.0.7
+version: 0.0.9
 homepage: https://github.com/DalangLy/dx-printing
 
 environment:

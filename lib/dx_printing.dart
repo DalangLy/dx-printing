@@ -23,10 +23,18 @@ class DxPrinting {
     return await _channel.invokeMethod('CutPaper');
   }
 
-  Future<String> printPicture({required Uint8List bytes, required double width,}) async{
+  Future<String> printPicture({required Uint8List bytes, required int width, required bool cutPaper}) async{
     return await _channel.invokeMethod("PrintPicture", <String, dynamic>{
       'bytes': bytes,
       'width': width,
+      'cutPaper': cutPaper,
+    });
+  }
+
+  Future<String> kickDrawer({required int nDrawerIndex, required int nPulseTime}) async{
+    return await _channel.invokeMethod("KickDrawer", <String, dynamic>{
+      'nDrawerIndex': nDrawerIndex,
+      'nPulseTime': nPulseTime,
     });
   }
 }

@@ -17,7 +17,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -62,8 +61,15 @@ public class DxPrintingPlugin implements FlutterPlugin, MethodCallHandler {
     else if(call.method.equals("PrintPicture")){
       final byte[] bytes = call.argument("bytes");
       final int width = call.argument("width");
-      es.submit(new PrintPicture(bytes, width));
+      final boolean cutPaper = call.argument("cutPaper");
+      es.submit(new PrintPicture(bytes, width, cutPaper));
       result.success("Print Image Success");
+    }
+    else if(call.method.equals("KickDrawer")){
+      final int nDrawerIndex = call.argument("nDrawerIndex");
+      final int nPulseTime = call.argument("nPulseTime");
+      es.submit(new KickDrawer(nDrawerIndex, nPulseTime));
+      result.success("Kick Drawer Success");
     }
     else {
       result.notImplemented();
@@ -103,10 +109,12 @@ public class DxPrintingPlugin implements FlutterPlugin, MethodCallHandler {
   private class  PrintPicture implements Runnable{
     final byte[] bytes;
     final int width;
+    final boolean cutPaper;
 
-    private PrintPicture(byte[] bytes, int width) {
+    private PrintPicture(byte[] bytes, int width, boolean cutPaper) {
       this.bytes = bytes;
       this.width = width;
+      this.cutPaper = cutPaper;
     }
 
     @Override
@@ -116,9 +124,27 @@ public class DxPrintingPlugin implements FlutterPlugin, MethodCallHandler {
         Bitmap image = BitmapFactory.decodeStream(is);
         is.close();
         mPos.POS_PrintPicture(image,width, 0, 0);
+        if(cutPaper){
+          mPos.POS_CutPaper();
+        }
       } catch (IOException e) {
         e.printStackTrace();
       }
+    }
+  }
+
+  private class KickDrawer implements Runnable{
+    final int nDrawerIndex;
+    final int nPulseTime;
+
+    private KickDrawer(int nDrawerIndex, int nPulseTime) {
+      this.nDrawerIndex = nDrawerIndex;
+      this.nPulseTime = nPulseTime;
+    }
+
+    @Override
+    public void run() {
+      mPos.POS_KickDrawer(nDrawerIndex, nPulseTime);
     }
   }
 }
