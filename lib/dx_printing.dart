@@ -10,4 +10,8 @@ class DxPrinting {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  Future<String> print() async{
+    return await _channel.invokeMethod("Print");
+  }
 }

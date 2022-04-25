@@ -1,6 +1,6 @@
 name: dx_printing
-description: A new flutter plugin project.
-version: 0.0.1
+description: printing sdk for android only
+version: 0.0.3
 homepage: https://github.com/DalangLy/dx-printing
 
 environment:
